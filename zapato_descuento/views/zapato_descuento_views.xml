@@ -6,44 +6,26 @@
             <field name="model">zapatos.zapato</field>
             <field name="inherit_id" ref="zapatos.view_zapato_form"/> 
             <field name="arch" type="xml">
-                
-                <xpath expr="//field[@name='codigo']" position="before">
-                    <group>
+                <xpath expr="//field[@name='codigo']/parent::group" position="replace">
+                    <group col="2">
                         <group string="Detalles Técnicos">
                             <field name="codigo"/>
                             <field name="marca"/>
                             <field name="color"/>
                             <field name="material"/>
                         </group>
-                        
                         <group string="Control de Inventario y Ofertas">
                             <field name="stock_minimo"/>
                             <field name="valor_inventario" readonly="1"/>
+                            <!-- Tus campos nuevos del módulo hijo -->
                             <field name="porcentaje_descuento"/>
                             <field name="precio_oferta" readonly="1"/>
                         </group>
                     </group>
                 </xpath>
 
-                <xpath expr="//field[@name='marca']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//field[@name='color']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//field[@name='material']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//field[@name='stock_minimo']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-                <xpath expr="//field[@name='valor_inventario']" position="attributes">
-                    <attribute name="invisible">1</attribute>
-                </xpath>
-
             </field>
         </record>
-
         <record id="view_zapato_list_inherit_descuento" model="ir.ui.view">
             <field name="name">zapatos.zapato.list.inherit.descuento</field>
             <field name="model">zapatos.zapato</field>
