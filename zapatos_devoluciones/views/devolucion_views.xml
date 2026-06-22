@@ -1,0 +1,126 @@
+<odoo>
+    <record id="seq_zapatos_devolucion" model="ir.sequence">
+        <field name="name">Devolución / Cambio de Zapato</field>
+        <field name="code">zapatos.devolucion</field>
+        <field name="prefix">DEV/%(year)s/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="view_devolucion_list" model="ir.ui.view">
+        <field name="name">zapatos.devolucion.list</field>
+        <field name="model">zapatos.devolucion</field>
+        <field name="arch" type="xml">
+            <list decoration-info="estado == 'borrador'"
+                  decoration-warning="estado == 'confirmado'"
+                  decoration-success="estado == 'completado'"
+                  decoration-muted="estado == 'cancelado'">
+                <field name="name"/>
+                <field name="fecha"/>
+                <field name="tipo"/>
+                <field name="zapato_id"/>
+                <field name="zapato_cambio_id" optional="show"/>
+                <field name="cantidad"/>
+                <field name="motivo"/>
+                <field name="precio_devuelto"/>
+                <field name="estado"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_devolucion_form" model="ir.ui.view">
+        <field name="name">zapatos.devolucion.form</field>
+        <field name="model">zapatos.devolucion</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_confirmar"
+                            string="Confirmar"
+                            type="object"
+                            class="btn-primary"
+                            invisible="estado != 'borrador'"/>
+                    <button name="action_completar"
+                            string="Completar"
+                            type="object"
+                            class="btn-primary"
+                            invisible="estado != 'confirmado'"/>
+                    <button name="action_cancelar"
+                            string="Cancelar"
+                            type="object"
+                            invisible="estado in ('completado', 'cancelado')"/>
+                    <button name="action_borrador"
+                            string="Restablecer a Borrador"
+                            type="object"
+                            invisible="estado != 'cancelado'"/>
+                    <field name="estado" widget="statusbar"
+                           statusbar_visible="borrador,confirmado,completado"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Información general">
+                            <field name="tipo"/>
+                            <field name="fecha"/>
+                            <field name="motivo"/>
+                        </group>
+                        <group string="Zapatos">
+                            <field name="zapato_id"/>
+                            <field name="zapato_cambio_id"
+                                   invisible="tipo != 'cambio'"
+                                   required="tipo == 'cambio'"/>
+                            <field name="cantidad"/>
+                        </group>
+                    </group>
+                    <group string="Resumen económico">
+                        <group>
+                            <field name="precio_devuelto"/>
+                            <field name="diferencia_precio"
+                                   invisible="tipo != 'cambio'"/>
+                        </group>
+                    </group>
+                    <group string="Notas">
+                        <field name="notas" nolabel="1" placeholder="Observaciones adicionales..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_devolucion_search" model="ir.ui.view">
+        <field name="name">zapatos.devolucion.search</field>
+        <field name="model">zapatos.devolucion</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="zapato_id"/>
+                <filter name="devoluciones" string="Devoluciones" domain="[('tipo','=','devolucion')]"/>
+                <filter name="cambios" string="Cambios" domain="[('tipo','=','cambio')]"/>
+                <separator/>
+                <filter name="borrador"   string="Borrador"   domain="[('estado','=','borrador')]"/>
+                <filter name="confirmado" string="Confirmado" domain="[('estado','=','confirmado')]"/>
+                <filter name="completado" string="Completado" domain="[('estado','=','completado')]"/>
+                <filter name="cancelado"  string="Cancelado"  domain="[('estado','=','cancelado')]"/>
+                <group expand="0" string="Agrupar por">
+                    <filter name="group_tipo"   string="Tipo"   context="{'group_by': 'tipo'}"/>
+                    <filter name="group_estado" string="Estado" context="{'group_by': 'estado'}"/>
+                    <filter name="group_motivo" string="Motivo" context="{'group_by': 'motivo'}"/>
+                    <filter name="group_fecha"  string="Fecha"  context="{'group_by': 'fecha:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_devolucion" model="ir.actions.act_window">
+        <field name="name">Devoluciones y Cambios</field>
+        <field name="res_model">zapatos.devolucion</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_devolucion_search"/>
+        <field name="context">{'search_default_borrador': 0}</field>
+    </record>
+    <menuitem id="menu_devoluciones"
+              name="Devoluciones y Cambios"
+              parent="zapatos.menu_zapatos_root"
+              action="action_devolucion"
+              sequence="20"/>
+
+</odoo>
