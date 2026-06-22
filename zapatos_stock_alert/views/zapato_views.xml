@@ -1,0 +1,15 @@
+<odoo>
+    <record id="view_zapato_list_stock_alert" model="ir.ui.view">
+        <field name="name">zapatos.zapato.list.stock.alert</field>
+        <field name="model">zapatos.zapato</field>
+        <field name="inherit_id" ref="zapatos.view_zapato_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="attributes">
+                <attribute name="decoration-danger">alerta_stock == True</attribute>
+            </xpath>
+            <xpath expr="//list" position="inside">
+                <field name="alerta_stock" column_invisible="True"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
