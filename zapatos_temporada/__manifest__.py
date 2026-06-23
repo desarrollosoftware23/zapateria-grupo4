@@ -8,8 +8,7 @@
     'depends': ['zapatos'],
     'data': [
         'views/temporada_views.xml',
-        'security/ir.model.access.csv'
     ],
     'installable': True,
     'application': True,
-}
+} 

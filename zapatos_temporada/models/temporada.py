@@ -10,4 +10,3 @@ class Zapato(models.Model):
         ('otono', 'Otoño'),
         ('invierno', 'Invierno')
     ], string='Temporada', default='verano', required=True)
-    
