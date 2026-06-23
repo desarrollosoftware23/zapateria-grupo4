@@ -18,7 +18,7 @@
         <field name="model">zapatos.zapato</field>
         <field name="inherit_id" ref="zapatos.view_zapato_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='precio']" position="after">
+            <xpath expr="//group/field[@name='precio']" position="after">
                 <field name="temporada"/>
             </xpath>
         </field>
