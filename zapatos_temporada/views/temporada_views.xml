@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_zapato_form_inherit_temporada" model="ir.ui.view">
+        <field name="name">zapato.form.inherit.temporada</field>
+        <field name="model">zapatos.zapato</field>
+        <field name="inherit_id" ref="zapatos.view_zapato_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='marca']" position="after">
+                <field name="temporada"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
