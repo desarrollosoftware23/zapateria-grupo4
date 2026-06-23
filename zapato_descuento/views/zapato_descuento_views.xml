@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_zapato_form_inherit_layout_descuento" model="ir.ui.view">
+        <field name="name">zapatos.zapato.form.inherit.layout.descuento</field>
+        <field name="model">zapatos.zapato</field>
+        <field name="inherit_id" ref="zapatos.view_zapato_form"/> 
+        <field name="arch" type="xml">
+            
+            <xpath expr="//sheet" position="inside">
+                <group string="Panel de Ofertas y Promociones Especiales" name="seccion_independiente_descuentos">
+                    <group col="2">
+                        <field name="porcentaje_descuento" string="Porcentaje a Rebajar (%)"
+                        style="border-radius: 4px; padding: 10px; margin-bottom: 10px;"/>
+                        <field name="precio_oferta" string="Precio Final con Descuento" readonly="1"/>
+                    </group>
+                </group>
+            </xpath>
+
+        </field>
+    </record>
+
+    <record id="view_zapato_list_inherit_descuento" model="ir.ui.view">
+        <field name="name">zapatos.zapato.list.inherit.descuento</field>
+        <field name="model">zapatos.zapato</field>
+        <field name="inherit_id" ref="zapatos.view_zapato_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//list" position="inside">
+                <field name="porcentaje_descuento" string="Descuento Real (%)"/>
+                <field name="precio_oferta" string="Monto Oferta"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
